@@ -35,31 +35,27 @@ It has a third party golang bindings https://github.com/svr4/couchbase-lite-cgo
 I am using the following command to clone the repo from github:
 > git clone -b fix/ci_windows_etc https://github.com/couchbaselabs/couchbase-lite-C.git
 
+
+Now have a look into the downloaded files, there is a power shell script attached inside (./jenkins/jenkins_win.ps1) to produce sub-module update recursively, On the next step you are going to execute that scipt using Windows PowerShell as an administrative mode.
+
 **Step-2:**\
-There is a power shell script to produce sub-module update recursively\
-I am using that script.\
-At first opening Windows PowerShell as an administrator\
-Then cd into the repository downloaded using step-1\
-inside the repo there is a folder called **jenkins**\
+cd into jenkins using following
+> cd ./jenkins
 
 **Step-3:**\
-cd into jenkins using following\
-> cd jenkins_win.ps1
-
-**Step-4:**\
-running the powershell script using following:\
-> .\jenkins_win.ps1
+Run the powershell script using the following command:
+> ./jenkins_win.ps1
 
 
 It failed to run Cmake because I am using visual studio 2019
 so trying another way to generate solution file using cmake (using command line as administrator)
 
-**Step-5:**\
-creating a folder called build_cmake\
+**Step-4:**\
+Create a folder called **build_cmake**
 > mkdir build_cmake
 
-**Step-6:** (Only if you use Visual Studio 2019)\
-Find a file **BuiltInWebSocket.cc** into the following location\
+**Step-5:** (Only if you use Visual Studio 2019)\
+Find a file **BuiltInWebSocket.cc** into the following location
 > ~couchbase-lite-C/vendor/couchbase-lite-core/Networking/BuiltInWebSocket.cc
 
 ###### Open with notepad or any of your favorite text editor and add after `#include <string>`
@@ -86,7 +82,7 @@ After that execute the following command:\
 ### Now how will i implement couchbase-lite-c embedded database with golang?
 To embed couchbsae-lite-c database with my golang project I have done the following steps...\
 
-1. Created a project folder ***embed-lite-db*** on my golang working directory **E:\GOLANG\src\mateors** then Copy and pasted the following code:
+1. Create a project folder ***embed-lite-db*** on your golang working directory **E:\GOLANG\src\mateors** then Copy and pasted the following code:
 
 ```go
 
@@ -145,10 +141,10 @@ func main() {
 }
 ```
 
-2. In the root of my project i ran the following command (E:\GOLANG\src\mateors\embed-lite-db)
+2. In the root of my project run the following command (E:\GOLANG\src\mateors\embed-lite-db)
 > go mod init
 
-Wait a bit and you will notice one file ***go.mod*** generated\
+Wait a bit and you will notice one file ***go.mod*** generated.
 
 
 3. Now Run the following command
@@ -170,7 +166,7 @@ C:/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw3
 collect2.exe: error: ld returned 1 exit status
 ```
 
-beside above output you will notice another file ***go.sum*** generated in the same directory\
+beside above output you will notice another file ***go.sum*** generated in the same directory
 
 4. Now you need to take two following action
 
@@ -178,9 +174,9 @@ beside above output you will notice another file ***go.sum*** generated in the s
     >set CC=C:\mingw64\bin\gcc.exe
 
     2. copy paste **CouchbaseLiteC.dll** file into two different places.
-    > copy CouchbaseLiteC.dll into $GOPATH\pkg\mod\github.com\svr4\couchbase-lite-cgo@v0.2.5\
+    > copy CouchbaseLiteC.dll into $GOPATH\pkg\mod\github.com\svr4\couchbase-lite-cgo@v0.2.5
 
-    > copy CouchbaseLiteC.dll into your project root directory \
+    > copy CouchbaseLiteC.dll into your project root directory
 
     (My golang working directory is E:\GOLANG)
     
