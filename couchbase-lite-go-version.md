@@ -177,21 +177,22 @@ beside above output you will notice another file ***go.sum*** generated in the s
     1. set the full path of your gcc for the golang environtment using following command.
     >set CC=C:\mingw64\bin\gcc.exe
 
-    2. copy paste **CouchbaseLiteC.dll** file into two places.
-    > copy CouchbaseLiteC.dll file $GOPATH\pkg\mod\github.com\svr4\couchbase-lite-cgo@v0.2.5 
-    > copy CouchbaseLiteC.dll file and paste into your project root directory 
+    2. copy paste **CouchbaseLiteC.dll** file into two different places.
+    > copy CouchbaseLiteC.dll into $GOPATH\pkg\mod\github.com\svr4\couchbase-lite-cgo@v0.2.5\
+
+    > copy CouchbaseLiteC.dll into your project root directory \
 
     (My golang working directory is E:\GOLANG)
     
 
-5. Now run the go build command again to build your project .exe file (as i am on windows)
+5. Now run the *go build* command again to build your project .exe file (as i am on windows)
 > go build
 
-If the above code ran successfully you get an .exe on your project root directory \
+If the above command run successfully you will get an .exe on your project root directory \
 (in my case its E:\GOLANG\src\mateors\embed-lite-db)
 
-Now you may run .exe file to check everything working perfectly.
-in my case ./embed-lite-db.exe ran successfully and got the following output:
+Now you may run .exe file to check everything working perfectly.\
+In my case ./embed-lite-db.exe ran successfully and got the following output:
 
 ```
 E:\GOLANG\src\mateors\embed-lite-db>embed-lite-db.exe
@@ -208,12 +209,7 @@ E:\GOLANG\src\mateors\embed-lite-db>embed-lite-db.exe
 ```
 
 If you see the above output **congratulations!** you have done everything successfully.
-<<<<<<< HEAD
-Thank you, if you like the post please give me a thumbs up/star on my github repo.
-if you need assistance send me an email <bill.rassel@gmail.com>
-=======
 Thank you, if you like the post please give me a thumbs up/star on my github repo. If you need assistance send me an email <bill.rassel@gmail.com>
->>>>>>> 51225cdeb961fe5d7246e156b66358e7ac008c0c
 
 ## Tools you required:
 1. http://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win32/Personal%20Builds/mingw-builds/installer/mingw-w64-install.exe/download
