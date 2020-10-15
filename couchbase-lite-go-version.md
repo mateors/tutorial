@@ -77,13 +77,14 @@ After that executing the following command:
 
 ![image](https://user-images.githubusercontent.com/17635146/76381770-97163480-6380-11ea-9737-c2583fd6ccbb.png)
 
-### Now how i i implement it with golang?
-to embed couchbsae-lite-c database with my golang project i did the following...\
+### Now how will i implement couchbase-lite-c embedded database with golang?
+to embed couchbsae-lite-c database with my golang project i have done the following steps...\
 
-1. Copy and paste the following code:
+1. Created a project folder ***embed-lite-db*** on my golang working directory **E:\GOLANG\src\mateors** then Copy and pasted the following code:
+
 ```go
-package main
 
+package main
 
 import (
 	cblcgo "github.com/svr4/couchbase-lite-cgo"
