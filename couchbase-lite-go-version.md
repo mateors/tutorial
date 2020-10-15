@@ -8,7 +8,7 @@ So the owner wants the software to work offline, that is, without an internet co
 
 I have never worked in offline first approach before
 So I keep thinking about how I will solve this problem
-Since I chose golang as the programming language, I was worried about which database would work better with golang, NoSQL or SQL.
+Since I chose golang as the programming language, I was worried about which database would work better with golang, NoSQL or SQL ??
 
 
 After two or three days of research I found couchbase
@@ -26,45 +26,46 @@ As soon as I searched the internet, I get to know.
 * Couchbase has an open source version
 * It supports offline first software development as it has a Couchbase Lite/Sync Gateway
 
-Now I will discuss how I set up embedded NoSQL syncable database for golang
+Now I will discuss how I set up embedded NoSQL syncable database for golang.
 
-For this i used https://github.com/couchbaselabs/couchbase-lite-C
-it has a third party golang bindings https://github.com/svr4/couchbase-lite-cgo
+For this I used https://github.com/couchbaselabs/couchbase-lite-C
+It has a third party golang bindings https://github.com/svr4/couchbase-lite-cgo
 
 **Step-1:**\
 I am using the following command to clone the repo from github:
 > git clone -b fix/ci_windows_etc https://github.com/couchbaselabs/couchbase-lite-C.git
 
 **Step-2:**\
-There is a power shell script to produce sub-module update recursively i am using that script using below:
-opening Windows PowerShell as administrative mode
-cd into the repository downloaded using step-1
-inside my repo there is a folder called jenkins
+There is a power shell script to produce sub-module update recursively\
+I am using that script.\
+At first opening Windows PowerShell as an administrator\
+Then cd into the repository downloaded using step-1\
+inside the repo there is a folder called **jenkins**\
 
 **Step-3:**\
-cd into jenkins using following
->cd jenkins_win.ps1
+cd into jenkins using following\
+> cd jenkins_win.ps1
 
 **Step-4:**\
-running the powershell script using following:
+running the powershell script using following:\
 > .\jenkins_win.ps1
 
 
-It failed to run Cmake because i am using visual studio 2019
-so i am trying to generate solution file using cmake following command: (using command line as administrator)
+It failed to run Cmake because I am using visual studio 2019
+so trying another way to generate solution file using cmake (using command line as administrator)
 
 **Step-5:**\
-creating a folder called build_cmake
+creating a folder called build_cmake\
 > mkdir build_cmake
 
-**Step-6:** (Only if you use Visual Studio 2019)
->Find  BuiltInWebSocket.cc into the following location
->~couchbase-lite-C/vendor/couchbase-lite-core/Networking/BuiltInWebSocket.cc
+**Step-6:** (Only if you use Visual Studio 2019)\
+Find a file **BuiltInWebSocket.cc** into the following location\
+> ~couchbase-lite-C/vendor/couchbase-lite-core/Networking/BuiltInWebSocket.cc
 
-open with notepad or any of your favorite text editor and add after `#include <string>`
-> #include <functional>
+###### Open with notepad or any of your favorite text editor and add after `#include <string>`
+> `#include <functional>`
 
-After that executing the following command:
+After that execute the following command:\
 > cmake -G "Visual Studio 16 2019" -B "C:\Users\mostain\Desktop\couchbase\newdb\couchbase-lite-C\build_cmake"
 
 
@@ -83,7 +84,7 @@ After that executing the following command:
 
 
 ### Now how will i implement couchbase-lite-c embedded database with golang?
-to embed couchbsae-lite-c database with my golang project i have done the following steps...\
+To embed couchbsae-lite-c database with my golang project I have done the following steps...\
 
 1. Created a project folder ***embed-lite-db*** on my golang working directory **E:\GOLANG\src\mateors** then Copy and pasted the following code:
 
@@ -146,7 +147,8 @@ func main() {
 
 2. In the root of my project i ran the following command (E:\GOLANG\src\mateors\embed-lite-db)
 > go mod init
-Wait a bit and you will noticed there are one called ***go.mod*** generated
+
+Wait a bit and you will notice one file ***go.mod*** generated\
 
 
 3. Now Run the following command
@@ -168,7 +170,7 @@ C:/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw3
 collect2.exe: error: ld returned 1 exit status
 ```
 
-beside above output you will noticed another file ***go.sum*** generated in the same directory 
+beside above output you will notice another file ***go.sum*** generated in the same directory\
 
 4. Now you need to take two following action
 
@@ -206,7 +208,7 @@ E:\GOLANG\src\mateors\embed-lite-db>embed-lite-db.exe
 ```
 
 If you see the above output **congratulations!** you have done everything successfully.
-Thank you, if you like the post please give me a thumbs up/star on my github repo.\
+Thank you, if you like the post please give me a thumbs up/star on my github repo.
 if you need assistance send me an email <bill.rassel@gmail.com>
 
 ## Tools you required:
