@@ -77,6 +77,11 @@ After that executing the following command:
 
 ![image](https://user-images.githubusercontent.com/17635146/76381770-97163480-6380-11ea-9737-c2583fd6ccbb.png)
 
+
+### If you face any issue or unable to build don'w worry still you can download my release build from ::
+<https://github.com/mateors/tutorial/tree/main/couchbase-lite-c>
+
+
 ### Now how will i implement couchbase-lite-c embedded database with golang?
 to embed couchbsae-lite-c database with my golang project i have done the following steps...\
 
