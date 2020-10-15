@@ -17,15 +17,15 @@
 # couchbase এর জন্য golang এর sdk আছে কিনা?
 # couchbase অফলাইন এবং অনলাইনে একসাথে কাজ করবে কিনা?
 
-Then i try to see if there is any SDK for golang on couchbase
+আলহামদুলিল্লাহ আল্লাহর অশেষ রহমতে আমি আমার প্রজেক্টি শুরু করতে পেরেছি এবং 
+আমি যেভাবে golang দিয়ে couchbase-lite এমবেডেড ডাটাবেজ কে compile করেছি সেটা এখানে স্টেপ বি স্টেপ দেখাবো
+
 
 Recently I am working on a supershop's erp development
-
-But this is an exception from all other projects because the consumer que at the pos continues to grow every minute
-
+But this is an exception from all other projects because the consumer que at the shop/POS continues to grow every minute
 On top of that there are problems with internet, local area network etc.
 
-So the owner wants the software to work offline, that is, without an internet connection, and whenever the network problem is solved, all the data will be synced online.
+So the owner wants the software to work offline, that is, without an internet connection, and whenever the network problem is fixed, all the data will be synced online.
 
 I have never worked in offline first approach before
 So I keep thinking about how I will solve this problem
