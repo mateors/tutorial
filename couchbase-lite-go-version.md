@@ -17,35 +17,35 @@ I'm glad to see big companies like ebay and staples in customer case studies on 
 
 Even after that, some questions kept popping up in my mind
 
-### Does couchbase has the sdk for golang?
-### Does couchbase work together offline and online?
+* Does couchbase has the sdk for golang?
+* Does couchbase work together offline and online?
 
 
-As soon as I searched the internet, I saw the
+As soon as I searched the internet, I get to know.
 
-Couchbase has an open source version
-It supports offline  first software development as it has a Couchbase Lite/Sync Gateway
+* Couchbase has an open source version
+* It supports offline first software development as it has a Couchbase Lite/Sync Gateway
 
 Now I will discuss how I set up embedded NoSQL syncable database for golang
 
 For this i used https://github.com/couchbaselabs/couchbase-lite-C
 it has a third party golang bindings https://github.com/svr4/couchbase-lite-cgo
 
-**Step-1:**
+**Step-1:**\
 I am using the following command to clone the repo from github:
 > git clone -b fix/ci_windows_etc https://github.com/couchbaselabs/couchbase-lite-C.git
 
-**Step-2:**
+**Step-2:**\
 There is a power shell script to produce sub-module update recursively i am using that script using below:
 opening Windows PowerShell as administrative mode
 cd into the repository downloaded using step-1
 inside my repo there is a folder called jenkins
 
-**Step-3:**
+**Step-3:**\
 cd into jenkins using following
 >cd jenkins_win.ps1
 
-**Step-4:**
+**Step-4:**\
 running the powershell script using following:
 > .\jenkins_win.ps1
 
@@ -53,7 +53,7 @@ running the powershell script using following:
 It failed to run Cmake because i am using visual studio 2019
 so i am trying to generate solution file using cmake following command: (using command line as administrator)
 
-**Step-5:**
+**Step-5:**\
 creating a folder called build_cmake
 > mkdir build_cmake
 
@@ -61,7 +61,7 @@ creating a folder called build_cmake
 >Find  BuiltInWebSocket.cc into the following location
 >~couchbase-lite-C/vendor/couchbase-lite-core/Networking/BuiltInWebSocket.cc
 
-open with notepad or any of your favorite text editor and add after #include <string>
+open with notepad or any of your favorite text editor and add after `#include <string>`
 > #include <functional>
 
 After that executing the following command:
@@ -77,5 +77,130 @@ After that executing the following command:
 
 ![image](https://user-images.githubusercontent.com/17635146/76381770-97163480-6380-11ea-9737-c2583fd6ccbb.png)
 
-done!
-Thank you.
+### Now how i i implement it with golang?
+to embed couchbsae-lite-c database with my golang project i did the following...\
+
+1. Copy and paste the following code:
+```go
+package main
+
+
+import (
+	cblcgo "github.com/svr4/couchbase-lite-cgo"
+	"fmt"
+)
+
+func main() {
+	var config cblcgo.DatabaseConfiguration
+
+	// Optional encryption key.
+	var encryption_key cblcgo.EncryptionKey
+	encryption_key.Algorithm = cblcgo.EncryptionNone
+	encryption_key.Bytes = make([]byte, 0)
+
+	config.Directory = "./"
+	config.EncryptionKey = encryption_key
+	config.Flags = cblcgo.Database_Create
+
+	if db, err := cblcgo.Open("my_db", &config); err == nil {
+		// Create a doc
+		doc := cblcgo.NewDocumentWithId("doc1")
+		doc.Props["first_name"] = "Mostain"
+		doc.Props["last_name"] = "Billah"
+		doc.Props["age"] = 36
+		doc.Props["email"] = "bill.rassel@gmail.com"
+		doc.Props["type"] = "contacts"
+
+		if _, err2 := db.Save(doc, cblcgo.LastWriteWins); err2 == nil {
+			// Retrieve the saved doc
+			if savedDoc, e := db.GetMutableDocument("test"); e == nil {
+				for k, v := range savedDoc.Props {
+					if savedDoc.Props[k] != v {
+						fmt.Println("Saved document and retrieved document are different.")
+					}
+				}
+				savedDoc.Release()
+			} else {
+				fmt.Println(e)
+			}
+		} else {
+			fmt.Println(err2)
+		}
+
+		if !db.Close() {
+			fmt.Println("Couldn't close the database.")
+		}
+
+	} else {
+		fmt.Println(err)
+	}
+	
+}
+```
+
+2. In the root of my project i ran the following command (E:\GOLANG\src\mateors\embed-lite-db)
+> go mod init
+Wait a bit and you will noticed there are one called ***go.mod*** generated
+
+
+3. Now Run the following command
+> go build
+
+### output:
+```
+go: finding module for package github.com/svr4/couchbase-lite-cgo
+go: found github.com/svr4/couchbase-lite-cgo in github.com/svr4/couchbase-lite-cgo v0.2.5
+# mateors/embed-lite-db
+c:\go\pkg\tool\windows_amd64\link.exe: running gcc failed: exit status 1
+C:/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/bin/ld.exe: cannot find -lCouchbaseLiteC
+C:/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/bin/ld.exe: cannot find -lCouchbaseLiteC
+C:/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/bin/ld.exe: cannot find -lCouchbaseLiteC
+C:/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/bin/ld.exe: cannot find -lCouchbaseLiteC
+C:/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/bin/ld.exe: cannot find -lCouchbaseLiteC
+C:/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/bin/ld.exe: cannot find -lCouchbaseLiteC
+C:/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/../../../../x86_64-w64-mingw32/bin/ld.exe: cannot find -lCouchbaseLiteC
+collect2.exe: error: ld returned 1 exit status
+```
+
+beside above output you will noticed another file ***go.sum*** generated in the same directory 
+
+4. Now you need to take two following action
+
+    1. set the full path of your gcc for the golang environtment using following command.
+    >set CC=C:\mingw64\bin\gcc.exe
+
+    2. copy paste **CouchbaseLiteC.dll** file into two places.
+    > copy CouchbaseLiteC.dll file $GOPATH\pkg\mod\github.com\svr4\couchbase-lite-cgo@v0.2.5 
+    > copy CouchbaseLiteC.dll file and paste into your project root directory 
+
+    (My golang working directory is E:\GOLANG)
+    
+
+5. Now run the go build command again to build your project .exe file (as i am on windows)
+> go build
+
+If the above code ran successfully you get an .exe on your project root directory \
+(in my case its E:\GOLANG\src\mateors\embed-lite-db)
+
+Now you may run .exe file to check everything working perfectly.
+in my case ./embed-lite-db.exe ran successfully and got the following output:
+
+```
+E:\GOLANG\src\mateors\embed-lite-db>embed-lite-db.exe
+09:04:30.104520| [DB]: {Shared#1}==> class litecore::DataFile::Shared 0000000000AF88F0 @0000000000AF88F0
+09:04:30.105469| [DB]: {Shared#1} instantiated on E:\GOLANG\src\mateors\embed-lite-db\my_db.cblite2\db.sqlite3
+09:04:30.106056| [DB]: {DB#2}==> class litecore::SQLiteDataFile .\my_db.cblite2\db.sqlite3 @0000000000AFCCF0
+09:04:30.106241| [DB]: {DB#2} Opening database
+09:04:30.107560| [Actor]: Starting Scheduler<0000000000B2BC70> with 12 threads
+09:04:30.108185| [DB]: {DB#3}==> class litecore::SQLiteDataFile .\my_db.cblite2\db.sqlite3 @0000000000B2CEB0
+09:04:30.108513| [DB]: {DB#3} Opening database
+09:04:30.236115| [DB]: {DB#2} Committing transaction took 0.126 sec
+09:04:30.240980| [DB]: {DB#3} Closing database
+09:04:30.311529| [DB]: {DB#2} Closing database
+```
+
+If you see the above output **congratulations!** you have done everything successfully.
+Thank you, if you like the post please give me a thumbs up/star on my github repo.
+
+## Tools you required:
+1. http://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win32/Personal%20Builds/mingw-builds/installer/mingw-w64-install.exe/download
