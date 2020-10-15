@@ -1,4 +1,4 @@
-# How i build couchbsae-lite-c embedded database for golang?
+# How to build couchbase-lite-c embedded database for golang?
 
 Recently I am working on a supershop's erp development. But this is an exception from all other projects because the consumer que at the point of sale/POS continues to grow in every minute.
 
