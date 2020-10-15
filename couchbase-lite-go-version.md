@@ -1,6 +1,6 @@
-Recently I am working on a supershop's erp development
+# How i build couchbsae-lite-c embedded database for golang?
 
-But this is an exception from all other projects because the consumer que at the pos continues to grow every minute
+Recently I am working on a supershop's erp development. But this is an exception from all other projects because the consumer que at the point of sale/POS continues to grow in every minute.
 
 On top of that there are problems with internet, local area network etc.
 
