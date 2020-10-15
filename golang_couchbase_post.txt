@@ -1,0 +1,97 @@
+সম্প্রতি আমি একটি supershop এর erp ডেভেলপমেন্ট এর কাজ করছি
+কিন্তু অন্য সকল প্রজেক্ট এর থেকে এটি ব্যতিক্রম কারণ এখানে প্রতি মিনিটে  pos এ consumer que বাড়তেই থাকে
+তার উপর ইন্টারনেট, লোকাল এরিয়া নেটওয়ার্ক ইত্যাদির সমস্যা তো আছেই
+সুতরাং মালিক পক্ষ চাচ্ছেন POS এর  সফটওয়্যার টি অবশ্যই offline এ অর্থাৎ বিনা ইন্টারনেট কানেকশন এ কাজ করবে এবং যখনই নেটওয়ার্ক সমস্যা সমাধান হবে সাথে সাথে সকল ডাটা অনলাইন এ sync হয়ে যাবে
+
+আমি এর আগে কখনো offline ফার্স্ট এপ্রোচ এ কাজ করিনি , সুতরাং আমি এই সমস্যাটি কীভাবে সমাধান করব সে সম্পর্কে ভাবতে থাকি
+
+যেহেতু প্রোগ্রামিং language হিসেবে আমি golang কে বেছে নিয়েছিলাম সুতরাং golang এর সাথে NoSQL বা SQL কোন ডাটাবেস ভালো কাজ করবে এটা নিয়ে চিন্তিত ছিলাম
+
+দুই তিনদিনের  রিসার্চ এর পর 
+
+দুই তিনদিনের  রিসার্চ এর পর আমি couchbase কে খুঁজে  পাই
+
+তাদের ওয়েবসাইট এ customer case studies এ ebay ও staples এর মত বড় কোম্পানি দেখতে পেয়ে আমি কিছুটা সাচ্ছন্দ বোধ করি
+
+এর পরও আমার মনে কিছু প্রশ্ন ঘোরপাক খাচ্ছিল যেমন
+# couchbase এর জন্য golang এর sdk আছে কিনা?
+# couchbase অফলাইন এবং অনলাইনে একসাথে কাজ করবে কিনা?
+
+Then i try to see if there is any SDK for golang on couchbase
+
+Recently I am working on a supershop's erp development
+
+But this is an exception from all other projects because the consumer que at the pos continues to grow every minute
+
+On top of that there are problems with internet, local area network etc.
+
+So the owner wants the software to work offline, that is, without an internet connection, and whenever the network problem is solved, all the data will be synced online.
+
+I have never worked in offline first approach before
+So I keep thinking about how I will solve this problem
+Since I chose golang as the programming language, I was worried about which database would work better with golang, NoSQL or SQL.
+
+
+After two or three days of research I found couchbase
+
+I'm glad to see big companies like ebay and staples in customer case studies on their website.
+
+Even after that, some questions kept popping up in my mind
+
+#Does couchbase has the sdk for golang?
+#Does couchbase work together offline and online?
+
+
+As soon as I searched the internet, I saw the
+
+Couchbase has an open source version
+it supports offline  first software development as it has a Couchbase Lite/Sync Gateway
+
+Now I will discuss how I set up embedded NoSQL syncable database for golang
+
+For this i used https://github.com/couchbaselabs/couchbase-lite-C
+it has a third party golang bindings https://github.com/svr4/couchbase-lite-cgo
+
+Step-1:
+I am using the following command to clone the repo from github:
+> git clone -b fix/ci_windows_etc https://github.com/couchbaselabs/couchbase-lite-C.git
+
+Step-2:
+There is a power shell script to produce sub-module update recursively i am using that script using below:
+opening Windows PowerShell as administrative mode
+cd into the repository downloaded using step-1
+inside my repo there is a folder called jenkins
+
+Step-3:
+cd into jenkins using following
+>cd jenkins_win.ps1
+
+Step-4:
+running the powershell script using following:
+> .\jenkins_win.ps1
+
+
+It failed to run Cmake because i am using visual studio 2019
+so i am trying to generate solution file using cmake following command: (using command line as administrator)
+
+Step-5:
+creating a folder called build_cmake
+> mkdir build_cmake
+
+Step-6: (Only if you use Visual Studio 2019)
+Find  BuiltInWebSocket.cc into the following location
+~couchbase-lite-C/vendor/couchbase-lite-core/Networking/BuiltInWebSocket.cc
+
+open with notepad or any of your favorite text editor and add after #include <string>
+#include <functional>
+
+After that executing the following command:
+> cmake -G "Visual Studio 16 2019" -B "C:\Users\mostain\Desktop\couchbase\newdb\couchbase-lite-C\build_cmake"
+
+
+If my build is successful then I will get the following 4 files in Release folder
+
+1. CouchbaseLiteC.dll
+2. CouchbaseLiteC.exp
+3. CouchbaseLiteC.lib
+4. CouchbaseLiteCStatic.lib
