@@ -208,8 +208,12 @@ E:\GOLANG\src\mateors\embed-lite-db>embed-lite-db.exe
 ```
 
 If you see the above output **congratulations!** you have done everything successfully.
+<<<<<<< HEAD
 Thank you, if you like the post please give me a thumbs up/star on my github repo.
 if you need assistance send me an email <bill.rassel@gmail.com>
+=======
+Thank you, if you like the post please give me a thumbs up/star on my github repo. If you need assistance send me an email <bill.rassel@gmail.com>
+>>>>>>> 51225cdeb961fe5d7246e156b66358e7ac008c0c
 
 ## Tools you required:
 1. http://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win32/Personal%20Builds/mingw-builds/installer/mingw-w64-install.exe/download
